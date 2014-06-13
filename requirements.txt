@@ -6,3 +6,5 @@ Werkzeug==0.9.4
 gunicorn==18.0
 itsdangerous==0.23
 wsgiref==0.1.2
+WTForms==2.0
+flask-WTF==0.9.5

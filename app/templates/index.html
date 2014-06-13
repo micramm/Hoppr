@@ -1,7 +1,42 @@
 {% extends "layout/base.html" %}
 
-	{% block content %}
-		<div id = "wrap">
-			<h1>I love Alexa!</h1>
+{% block content %}
+<div id="wrap">
+	<div class="container">
+		
+		<div id="explanation">
+		<h1>Hopper</h1>
+		<h3>Enter the starting location and where you would like to go including</h3>
+		<li>bars</li>
+		<li>cafes</li>
+		<li>hair</li>
+		<li>drugstores</li>
+		<li>grocery</li>
+		<li>lounges</li>
 		</div>
-	{% endblock %}
+		<br>
+		<br>
+		<div id="login_form">
+			<form action="" method="post" name="login" onsubmit="return (true)">    
+				{{form.hidden_tag()}}        
+				Home location<br>        
+				{{form.home(size=40)}}<br>      
+				Category one:<br>        
+				{{form.cat1(size=40)}}</p>      
+				Category two:<br>        
+				{{form.cat2(size=40)}}</p>
+				Category three:<br>        
+				{{form.cat3(size=40)}}</p>
+				Category four:<br>        
+				{{form.cat4(size=40)}}</p>          
+				<p><div id="submit_button"><input type="submit" value="Route My Chores"></div>
+			</form>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+	
+{% block footer %}
+  {% include "include/footer.html" %}
+{% endblock %}
