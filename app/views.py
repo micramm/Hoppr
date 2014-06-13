@@ -2,7 +2,9 @@ from flask import render_template, redirect, url_for
 from forms import LoginForm
 from app import app, host, port, user, passwd, db
 from app.helpers.database import con_db
-
+#functionality-related packages
+from hopper import hopper
+hopper = hopper()
 
 # To create a database connection, add the following
 # within your view functions:
@@ -20,8 +22,8 @@ def index():
         cat2 = form.cat2.data
         cat3 = form.cat3.data
         cat4 = form.cat4.data
-#         print '\n', home_addr, cat1, cat2, cat3, cat4, '\n'
-        return redirect(url_for('results',home_addr=home_addr, cat1=cat1, cat2=cat2, cat3=cat3, cat4=cat4))
+        yelp = form.yelp.data
+        return redirect(url_for('results',home_addr=home_addr, cat1=cat1, cat2=cat2, cat3=cat3, cat4=cat4,yelp_rating=yelp))
     return render_template('index.html', form = form)
 
 @app.route('/home')
@@ -39,10 +41,16 @@ def contact():
     # Renders author.html.
     return render_template('author.html')
 
-@app.route('/results')
-def results():
-    # Renders author.html.
-    return render_template('author.html')
+@app.route('/results/<home_addr>_<cat1>_<cat2>_<cat3>_<cat4>_<yelp_rating>')
+def results(home_addr, cat1, cat2, cat3, cat4, yelp_rating):
+    start_lat,start_long = hopper.get_coordinates(home_addr)
+    categories = [cat1, cat2, cat3, cat4]
+    print 'getting locations'
+    locations = hopper.get_path(start_lat, start_long, yelp_rating, categories)
+    print 'got locations!'
+    loc1,loc2,loc3,loc4 = locations
+    url = 'https://www.google.com/maps/dir/' + home_addr +'/' + loc1[2] + '/' + loc2[2] + '/' + loc3[2] + '/' + loc4[2] + '/' + home_addr
+    return render_template('results.html', loc0 = home_addr, loc1 = loc1[0:3], loc2 = loc2[0:3], loc3=loc3[0:3], loc4=loc4[0:3], url = url)
 
 @app.errorhandler(404)
 def page_not_found(error):
