@@ -39,7 +39,7 @@ def about():
 @app.route('/author')
 def contact():
     # Renders author.html.
-    return render_template('author.html')
+    return render_template('map.html')
 
 @app.route('/results/<home_addr>_<cat1>_<cat2>_<cat3>_<cat4>_<yelp_rating>')
 def results(home_addr, cat1, cat2, cat3, cat4, yelp_rating):
@@ -49,8 +49,8 @@ def results(home_addr, cat1, cat2, cat3, cat4, yelp_rating):
     locations = hopper.get_path(start_lat, start_long, yelp_rating, categories)
     print 'got locations!'
     loc1,loc2,loc3,loc4 = locations
-    url = 'https://www.google.com/maps/dir/' + home_addr +'/' + loc1[2] + '/' + loc2[2] + '/' + loc3[2] + '/' + loc4[2] + '/' + home_addr
-    return render_template('results.html', loc0 = home_addr, loc1 = loc1[0:3], loc2 = loc2[0:3], loc3=loc3[0:3], loc4=loc4[0:3], url = url)
+    url = 'https://www.google.com/maps/dir/' + home_addr +'/' + loc1[3] + '/' + loc2[3] + '/' + loc3[3] + '/' + loc4[3] + '/' + home_addr
+    return render_template('results.html', loc0 = home_addr, loc1 = loc1[1:4], loc2 = loc2[1:4], loc3=loc3[1:4], loc4=loc4[1:4], url = url)
 
 @app.errorhandler(404)
 def page_not_found(error):

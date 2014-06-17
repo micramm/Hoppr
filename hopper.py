@@ -23,13 +23,10 @@ class hopper(object):
         
     def get_path(self, start_lat, start_long, yelp_rating, categories):
         print start_lat, start_long, yelp_rating, categories
-        listings, lengths = self.db.get_listings(start_lat, start_long, yelp_rating, categories)
+        listings, lengths = self.db.get_listings(start_lat, start_long, yelp_rating, categories, number = 6)
         coordinates = ['{0},{1}'.format(start_lat, start_long)]
         coordinates.extend('{0},{1}'.format(res[-2],res[-1]) for res in listings)
-        print coordinates
         sums = list(self._cumsum(lengths))
-        print lengths
-        print sums
         common_groups = [range(sums[k], sums[k+1]) for k in range(len(sums) - 1)]
         distances = self.distance_api.get_all_to_all_matrix(coordinates)
         shortest_length, path = self.finder.get_fastest_path(distances, common_groups, start = 0, stop = 0)
@@ -45,6 +42,9 @@ if __name__ == '__main__':
     yelp_rating = 3.5
     categories = ['cafes','hair','grocery','lounges']
     number = 6
+    import time
+    t1 = time.time()
     path_list = hopper.get_path(start_lat, start_long, yelp_rating, categories)
+    print time.time() - t1
     for p in path_list:
-        print p[2]
+        print p[1], p[2], p[3]

@@ -1,0 +1,37 @@
+{% extends "layout/base.html" %}
+
+{% block content %}
+<style>
+      #map-canvas {
+        height: 60%;
+        width:  60%;
+        margin: 0px;
+        padding: 0px;
+        float: left;
+      }
+</style>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+
+	<div style="width:250px;float:left;padding:10px">Hello!</div>
+	<div id="map-canvas"></div>
+
+<script>
+var map;
+function initialize() {
+  var mapOptions = {
+    zoom: 10,
+    center: new google.maps.LatLng(37.4828, -122.2361)
+  };
+  console.log('HELLO\n');
+  map = new google.maps.Map(document.getElementById('map-canvas'),
+      mapOptions);
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+
+
+{% endblock %}
+{% block footer %}
+  {% include "include/footer.html" %}
+{% endblock %}

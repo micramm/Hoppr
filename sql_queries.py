@@ -32,7 +32,7 @@ WHERE short_category = '{}'""".format(category)
     def _query_get_number(self, number): 
         #selects places that are close enough (in the filtered_yelp table) and match category (in the cats) table
         return """
-SELECT cats.id as id, short_category, display_address, image_url, phone, rating, rating_image_url_large, url, latitude, longitude 
+SELECT cats.id as id, name, short_category, display_address, image_url, phone, rating, rating_image_url_large, url, latitude, longitude 
 FROM cats
 JOIN filtered_yelp
 ON cats.id = filtered_yelp.id
@@ -45,7 +45,6 @@ LIMIT {}""".format(number)
         that belong to one of the categories. Number specifies the number of listings to return for
         each category
         """
-        print categories
         results = []
         lengths = []
         self.cursor.execute(self._query_close_locations(start_lat, start_long, yelp_rating))
