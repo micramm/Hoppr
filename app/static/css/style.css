@@ -47,6 +47,7 @@ body {
 .grid_image {
 	height: 100px;
 	width: 100px;
+	background-color: rgba(245, 245, 245, 0.75)
 }
 
 .grid_image_label {
