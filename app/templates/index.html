@@ -1,7 +1,6 @@
 {% extends "layout/base.html" %}
 
 {% block content %}
-
     <style>
       body {
         background: url("https://farm9.staticflickr.com/8061/8179292267_a7c3b34fcf_h.jpg") no-repeat center center fixed;
@@ -11,178 +10,182 @@
                background-size: cover;
                /*background-position:0% 50%;*/
       }
-
-    
-
     </style>
     
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-<div id="wrap">
-	<div class="container">
-		<!-- The starting location entry field	 -->
-		<div class ="col-lg-8 col-lg-offset-0">
-			<div class="well">
-				<h1>Hoppr around town</h1>
-				<div class="row">		
-		  			<div class="col-lg-7">
-		    			<input type="text" class="form-control input-lg" id="stratingLocation" placeholder="Starting Location">
-			  		</div>
-			  		<div class="col-lg-3">
-			    		<select id="yelp_rating" class="btn btn-info form-control input-lg">
-		  					<option>Yelp: Top 20%</option>
-		  					<option>Yelp: Top 40%</option>
-		  					<option>Yelp: Top 60%</option>
-		  					<option>Yelp: Top 80%</option>
-						</select>
-		  			</div>
-		  			<div class="col-lg-2">
-		  				<button id="submit" type="submit" class="btn btn-primary btn-block input-lg">Submit</button>
-					</div>
+<div class="container">
+	<!-- The starting location entry field	 -->
+	<div class ="col-lg-8 col-lg-offset-0" style="padding-left:0px">
+		<div class="well">
+			<h1>Hoppr around town</h1>
+			<div class="row">		
+	  			<div class="col-lg-7">
+	    			<input type="text" class="form-control input-lg" id="startingLocation" placeholder="Starting Location">
+		  		</div>
+		  		<div class="col-lg-3">
+		    		<select id="yelp_rating" class="btn btn-info form-control input-lg">
+	  					<option>Yelp: Top 20%</option>
+	  					<option>Yelp: Top 40%</option>
+	  					<option>Yelp: Top 60%</option>
+	  					<option>Yelp: Top 80%</option>
+					</select>
+	  			</div>
+	  			<div class="col-lg-2">
+	  				<button id="submit" type="button" class="btn btn-primary btn-block input-lg">Submit</button>
 				</div>
 			</div>
-		<!-- Closing the entry field -->
 		</div>
-		
-		<div class ="col-lg-12 well">
-			<h2>Add Desintations</h2>
+	<!-- Closing the entry field -->
+	</div>
+	<!-- Starting bottom well -->
+	<div class ="col-lg-11 well" style="padding-left:0px">
 			<!-- Starting itenrary field-->
-			<div class ="col-lg-5 col-lg-offset-0" style="background-color:white">
-				<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+			<div class ="col-lg-5 col-lg-offset-0">
+				<h2>Add Destinations</h2>
+				<div class="row">
+					<div class="col-lg-9">
+		    			<input type="text" class="form-control input-lg" id="desintationEntry">
+		    		</div>
+		    		<div class="col-lg-3">
+						<button id="addDestinationButton" type="button" class="btn btn-info btn-block input-lg">Add</a>
+					</div>
+				</div>
+				<ol>
+					<div id="ListWrapper">
+					</div>
+				</ol>
 			</div>	
 			<!-- Starting the grid of icons-->
 			<div class ="container col-lg-6 col-lg-offset-1">
 				<div class="row">
-            		<div class = "col-lg-3">
-            			<div class="text-info grid_image_label">grocery</div>
-            			<img class="img-thumbnail grid_image" id="Grocery" src="http://www.iconsdb.com/icons/preview/black/shopping-cart-xxl.png">
-            		</div>
-            		<div class = "col-lg-3">
-            			<div class="text-info grid_image_label">bank</div>
-            			<img class="img-thumbnail grid_image" id="Banks & Credit Unions" src="/static/images/bank.png">
-            		</div>
-            		<div class = "col-lg-3">
-            			<div class="text-info grid_image_label">usps</div>
-            			<img class="img-thumbnail grid_image" id="Post Offices" src="http://www.clker.com/cliparts/7/d/b/2/12065629392075203596qubodup_16x16px-capable_black_and_white_icons_9.svg.thumb.png">
-            		</div>
+	        		<div class = "col-lg-3 nopadding">
+	        			<div class="text-info grid_image_label">grocery</div>
+	        			<img class="img-thumbnail grid_image" id="Grocery" src="http://www.iconsdb.com/icons/preview/black/shopping-cart-xxl.png">
+	        		</div>
+	        		<div class = "col-lg-3">
+	        			<div class="text-info grid_image_label">bank</div>
+	        			<img class="img-thumbnail grid_image" id="Banks & Credit Unions" src="/static/images/bank.png">
+	        		</div>
+	        		<div class = "col-lg-3">
+	        			<div class="text-info grid_image_label">usps</div>
+	        			<img class="img-thumbnail grid_image" id="Post Offices" src="http://www.clker.com/cliparts/7/d/b/2/12065629392075203596qubodup_16x16px-capable_black_and_white_icons_9.svg.thumb.png">
+	        		</div>
 					<div class = "col-lg-3">
 						<div class="text-info grid_image_label">pharmacy</div>
-            			<img class="img-thumbnail grid_image" id="Drugstores" src="http://www.clker.com/cliparts/6/b/6/d/1206572740794412207johnny_automatic_NPS_map_pictographs_part_24.svg.thumb.png">
-            		</div>
+	        			<img class="img-thumbnail grid_image" id="Drugstores" src="http://www.clker.com/cliparts/6/b/6/d/1206572740794412207johnny_automatic_NPS_map_pictographs_part_24.svg.thumb.png">
+	        		</div>
 				</div>
 				<br>
 				<div class="row">
-            		<div class = "col-lg-3">
-            			<div class="text-info grid_image_label">Stores</div>
-            			<img class="img-thumbnail grid_image" id="Department Stores" src="https://cdn1.iconfinder.com/data/icons/dot/256/hanger.png">
-            		</div>
+	        		<div class = "col-lg-3 nopadding">
+	        			<div class="text-info grid_image_label">Stores</div>
+	        			<img class="img-thumbnail grid_image" id="Department Stores" src="https://cdn1.iconfinder.com/data/icons/dot/256/hanger.png">
+	        		</div>
 					<div class = "col-lg-3">
 						<div class="text-info grid_image_label">hair</div>
-            			<img class="img-thumbnail grid_image" id="Hair Salons" src="http://i1.cpcache.com/product_zoom/625859335/poster.jpg?height=250&width=250&padToSquare=true">
-            		</div>
+	        			<img class="img-thumbnail grid_image" id="Hair Salons" src="http://i1.cpcache.com/product_zoom/625859335/poster.jpg?height=250&width=250&padToSquare=true">
+	        		</div>
 					<div class = "col-lg-3">
 						<div class="text-info grid_image_label">laundry</div>
-            			<img class="img-thumbnail grid_image" id="Dry Cleaning & Laundry" src="http://www.clker.com/cliparts/0/1/e/0/13149078411295954473Washing Instructions.svg.med.png">
-            		</div>
-            		<div class = "col-lg-3">
-            			<div class="text-info grid_image_label">coffee</div>
-            			<img class="img-thumbnail grid_image" id="Coffee & Tea" src="/static/images/coffee.png">
-            		</div>
-            	</div>
-            	<br>
-            	<div class="row">
+	        			<img class="img-thumbnail grid_image" id="Dry Cleaning & Laundry" src="http://www.clker.com/cliparts/0/1/e/0/13149078411295954473Washing Instructions.svg.med.png">
+	        		</div>
+	        		<div class = "col-lg-3">
+	        			<div class="text-info grid_image_label">coffee</div>
+	        			<img class="img-thumbnail grid_image" id="Coffee & Tea" src="/static/images/coffee.png">
+	        		</div>
+	        	</div>
+	        	<br>
+	        	<div class="row">
 					<div class = "col-lg-3">
 						<div class="text-info grid_image_label">chinese</div>
-            			<img class="img-thumbnail grid_image" id="Chinese" src="https://cdn3.iconfinder.com/data/icons/meanicons-base/512/meanicons_27-512.png">
-            		</div>
-            		<div class = "col-lg-3">
-            			<div class="text-info grid_image_label">italian</div>
-            			<img class="img-thumbnail grid_image" id="Italian" src="https://cdn1.iconfinder.com/data/icons/windows-8-metro-style/512/pizza-.png">
-            		</div>
-         			<div class = "col-lg-3">
-            			<div class="text-info grid_image_label">liquor</div>
-            			<img class="img-thumbnail grid_image" id="Beer, Wine & Spirits" src="http://www.iconhot.com/icon/png/symbolicons-drink/512/drink-wine-glass.png">
-            		</div>
+	        			<img class="img-thumbnail grid_image" id="Chinese" src="https://cdn3.iconfinder.com/data/icons/meanicons-base/512/meanicons_27-512.png">
+	        		</div>
+	        		<div class = "col-lg-3">
+	        			<div class="text-info grid_image_label">italian</div>
+	        			<img class="img-thumbnail grid_image" id="Italian" src="https://cdn1.iconfinder.com/data/icons/windows-8-metro-style/512/pizza-.png">
+	        		</div>
+	     			<div class = "col-lg-3">
+	        			<div class="text-info grid_image_label">liquor</div>
+	        			<img class="img-thumbnail grid_image" id="Beer, Wine & Spirits" src="http://www.iconhot.com/icon/png/symbolicons-drink/512/drink-wine-glass.png">
+	        		</div>
 					<div class = "col-lg-3">
 						<div class="text-info grid_image_label">bakery</div>
 						<img class="img-thumbnail grid_image" id="Bakeries" src="http://www.clker.com/cliparts/I/H/v/Q/b/I/polka-dot-cupcake-black-hi.png">
-            		</div>
+	        		</div>
 				</div>
 			</div>
-		</div>
-
-
-		
-		
-		<!-- <li>cafes</li>
-		<li>hair</li>
-		<li>grocery</li>
-		<li>lounges</li>
-		<br>
-		<br>
-		<span class="small"><a id="AddCategoryButton" class="btn btn-info">Add Desintation</a></span>
-		<div id="InputsWrapper">
-		</div>
-		<span class="small"></span>
-
-		
-		<script type="text/javascript">
-		var MaxForms = 5;
-		var numberForms = 0;
-		
-		add_category_field();
-		add_category_field();
-		//adds one text entry to the categories
-		function add_category_field(){
-			$("#InputsWrapper").append('<div><input type="text" class="category"><a href="#" class="removeclass">&times;</a></div>');	
-			numberForms++;
-			return 0;
-		};
-		//clicking AddCategoryButton adds a text field
-		$("#AddCategoryButton").click(function (e){ 
-			if (numberForms < MaxForms){
-				add_category_field();
-			}
-		});
-		//clicking X button removed the field
-		$("body").on("click",".removeclass", function(e){
-			if ( numberForms > 1) {
-				$(this).parent('div').remove();
-				numberForms--;			
-			}
-			return 0;
-		}
-		);
-		//submitting the form redirects the page
-		$('#Submit').click(function(e){
-			var categories = document.getElementsByClassName('category');
-			entries = {};
-			for (var i=0; i < categories.length; i++){
-				entries[i] = categories[i].value;
-			}
-			var yelp_rating_dropdown = document.getElementById('yelp_rating');
-			entries['yelp_rating'] = yelp_rating_dropdown.value;
-			console.log('in here!')
-			window.location.href = '/results/' + JSON.stringify(entries)
-			return 0;
-		});
-		</script> -->
-		
-		<script>
-			$("body").on("click",".grid_image", function(e){
-				console.log($(this)[0].id);
-			// if ( numberForms > 1) {
-				// $(this).parent('div').remove();
-				// numberForms--;			
-			// }
-				return 0;
-			});
-		</script>
-		
-
-	<!-- end of container -->
+	<!-- Ending bottom well -->
 	</div>
-<!-- end of wrap -->
+<!-- end of container -->
 </div>
+<script type="text/javascript">
+	var maxDestinations = 4;
+	var desintationList = [];
+	
+	//adds one text entry to the categories
+	function add_list_item(text){
+		// add item if not above max count, and if not already there
+		if (desintationList.length < maxDestinations && !(desintationList.indexOf(text) > -1)){
+			$("#ListWrapper").append('<div><li>' + text + '<a href="#" class="removeclass">&times;</a></li></div>');	
+			desintationList.push(text);
+		}
+		return 0;
+	};
+	// Pressing enter in the text field of desintationEntry is the same as clicking on addCategoryButton
+	$("#desintationEntry").keyup(function(event){
+    if(event.keyCode == 13){
+        $("#addDestinationButton").click();
+    }
+});
+	
+	//clicking AddCategoryButton adds a text field
+	$("#addDestinationButton").click(function (e){ 
+		var text = $("#desintationEntry").val();
+		console.log(text);
+		add_list_item(text);
+		// clear the text field
+		$("#desintationEntry").val("");
+	});
+	
+	//clicking X button removed the field
+	$("body").on("click",".removeclass", function(e){
+		// remove the entry from the list
+		var li = $(this).parent()[0];
+		var text = li.childNodes[0].data;
+		var index = desintationList.indexOf(text);
+		console.log(index);
+		if (index !== -1) {
+			desintationList.splice(index, 1);
+		}
+		// remove the div entirely
+		$(this).parent('li').remove();	
+		return 0;
+	}
+	);
+	
+	//submitting the form redirects the page
+	$('#submit').click(function(e){
+		entries = {};
+		for (var i=0; i < desintationList.length; i++){
+			entries[i] = desintationList[i];
+		}
+		var yelp_rating_dropdown = document.getElementById('yelp_rating');
+		entries['yelp_rating'] = yelp_rating_dropdown.value;
+		var start = document.getElementById('startingLocation');
+		entries["start"] = start.value;
+		console.log(entries);
+		window.location.href = '/results/' + JSON.stringify(entries);
+		return 0;
+	});
+	
+	// when grid image is clicked, add the category to the destination list
+	$("body").on("click",".grid_image", function(e){
+		// retrieving text from the id element
+		var text = $(this)[0].id;
+		add_list_item(text);
+		return 0;
+		});
+</script>
 
 {% endblock %}

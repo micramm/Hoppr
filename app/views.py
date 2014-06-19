@@ -27,7 +27,8 @@ def about():
 @app.route('/author')
 def contact():
     # Renders author.html.
-    return render_template('map.html')
+    return redirect("http://www.michael-ramm.com", code=302) 
+#     return render_template('map.html')
 
 @app.route('/results/<entered>')
 def results(entered):

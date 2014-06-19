@@ -19,15 +19,6 @@ body {
   padding: 0 0 40px;
 }
 
-/* Set the fixed height of the footer here */
-#footer {
-  position: fixed;
-  bottom: 0;
-  height: 40px;
-  width: 100%;
-  background-color: #f5f5f5;
-}
-
 /* Genericon social icon styles
 ---------------------------------------------------- */
 .genericon-github:before,
@@ -38,16 +29,11 @@ body {
     vertical-align: middle;
 }
 
-.social-icons {
-    display: inline-block;
-    vertical-align: middle;
-    margin: 10px;
-}
-
 .grid_image {
 	height: 100px;
 	width: 100px;
-	background-color: rgba(245, 245, 245, 0.75)
+	background-color: rgba(245, 245, 245, 0.75);
+	padding: 5px;
 }
 
 .grid_image_label {
@@ -65,4 +51,10 @@ body {
 
 .well {
    background-color: rgba(245, 245, 245, 0.75);
+}
+
+#ListWrapper {
+	font-family: Helvetica, sans-serif;
+	font-size: 24px;
+	line-height:200%; 
 }
