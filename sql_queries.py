@@ -9,8 +9,8 @@ database_name = 'Insight'
 class sql(object):
     
     def __init__(self):
-        conn = pymysql.connect(host='localhost', user='root')
-#         conn = pymysql.connect(host='insight.clzrh9aax7lr.us-east-1.rds.amazonaws.com', user='michaelramm', passwd = access_keys.amazon_rds_password)
+#         conn = pymysql.connect(host='localhost', user='root')
+        conn = pymysql.connect(host='insight.clzrh9aax7lr.us-east-1.rds.amazonaws.com', user='michaelramm', passwd = access_keys.amazon_rds_password)
         self.cursor = conn.cursor()
         self.cursor.execute("""USE {};""".format(database_name))
         
@@ -68,7 +68,11 @@ WHERE categories.full_category = "{}"
         each category
         """
         results = []
-        lengths = []    
+        lengths = []
+        
+        import time
+        t1 = time.time()
+        
         for entry in entries:
             if self._is_a_category(entry):
                 query = self._query_category(start_lat, start_long, entry, yelp_perc, number)
@@ -81,6 +85,9 @@ WHERE categories.full_category = "{}"
                 raise Exception("No locations found for entry {0}".format(entry))
             results.extend(data)
             lengths.append(length)
+        
+        print time.time() - t1
+        
         return results, lengths
     
 if __name__ == '__main__':

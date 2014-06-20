@@ -56,6 +56,7 @@ body {
 
 #location_results {
 	background-color: rgba(245, 245, 245, 0.9);
+	padding: 5px 0px 0px 5px;
 }
 
 #map-canvas {
@@ -63,6 +64,7 @@ body {
     width:  100%;
     margin: 0px;
     padding: 0px;
+    border-radius: 5px;
   }
 
 .dest_table_font {
