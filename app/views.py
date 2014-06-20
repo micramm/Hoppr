@@ -25,7 +25,7 @@ def contact():
 @app.route('/test')
 def test():
     # Renders author.html.
-    p = 'hi'
+    p = [('hello',123)]
     return render_template('test.html', p = p)
 
 
