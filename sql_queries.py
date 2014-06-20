@@ -14,32 +14,50 @@ class sql(object):
         self.cursor = conn.cursor()
         self.cursor.execute("""USE {};""".format(database_name))
         
-    def _query_close_locations(self, latitde, longitude, yelp_rating):
-        #returns the query to create the filtered_yelp table with locations close to the provided coordinates
-        return """
-CREATE OR REPLACE VIEW filtered_yelp AS
-SELECT *, SQRT(POW((latitude - {0}),2) + POW((longitude - {1}),2)) as distance
-FROM yelp
-WHERE rating >= {2}""".format(latitde, longitude, yelp_rating)
-    
-    def _query_match_category(self, category):
-        #creates a view  object for locations matching the provided category
-        return """CREATE OR REPLACE VIEW cats AS
-SELECT id, short_category
-FROM categories
-WHERE short_category = '{}'""".format(category)
-    
-    def _query_get_number(self, number): 
-        #selects places that are close enough (in the filtered_yelp table) and match category (in the cats) table
-        return """
-SELECT cats.id as id, name, short_category, display_address, image_url, phone, rating, rating_image_url_large, url, latitude, longitude 
-FROM cats
-JOIN filtered_yelp
-ON cats.id = filtered_yelp.id
-ORDER BY distance
-LIMIT {}""".format(number)
-    
-    def get_listings(self, start_lat, start_long, yelp_rating, categories, number = 6):
+    def _query_category(self, latitude, longitude, category, yelp_perc, number):
+        #returns number i.e 6 closest locations to the given lat/long point for a business in the provided category that is in the top perc of all businesses of that category 
+        return """SELECT * 
+FROM
+(
+    SELECT categories.id as id, name, full_category, display_address, image_url, phone, rating, rating_image_url_large, url, latitude, longitude, SQRT(POW((latitude - {latitude}),2) + POW((longitude - {longitude}),2)) as distance, @counter := @counter +1 counter
+    FROM (select @counter:=0) initvar, categories
+    JOIN yelp
+    ON yelp.id = categories.id
+    WHERE categories.full_category = "{category}"
+    ORDER BY rating DESC
+) AS X
+WHERE counter <= CEILING({yelp_perc}/100 * @counter)
+ORDER BY distance ASC
+LIMIT {number}""".format(category = category, latitude = latitude, longitude = longitude, number = number, yelp_perc = yelp_perc)
+
+    def _query_name(self, latitude, longitude, name, yelp_perc, number):
+        #same as _query_category for porbing business name
+        return """SELECT * 
+FROM
+(
+    SELECT categories.id as id, name, full_category, display_address, image_url, phone, rating, rating_image_url_large, url, latitude, longitude, SQRT(POW((latitude - {latitude}),2) + POW((longitude - {longitude}),2)) as distance, @counter := @counter +1 counter
+    FROM (select @counter:=0) initvar, categories
+    JOIN yelp
+    ON yelp.id = categories.id
+    WHERE yelp.name = "{name}"
+    ORDER BY rating DESC
+) AS X
+WHERE counter <= CEILING({yelp_perc}/100 * @counter)
+ORDER BY distance ASC
+LIMIT {number}""".format(name = name, latitude = latitude, longitude = longitude, number = number, yelp_perc = yelp_perc)
+
+    def _is_a_category(self, text):
+        #returns whether a given text is among categories
+        query = """SELECT COUNT(*)
+FROM categories 
+WHERE categories.full_category = "{}"
+""".format(text)
+        self.cursor.execute(query)
+        count = self.cursor.fetchall()
+        count = count[0][0]
+        return count > 0
+
+    def get_listings(self, start_lat, start_long, yelp_perc, entries, number = 6):
         """
         Returns the listings of locations closest to the specified location (start_lat, start_long)
         that belong to one of the categories. Number specifies the number of listings to return for
@@ -47,23 +65,25 @@ LIMIT {}""".format(number)
         """
         results = []
         lengths = []
-        self.cursor.execute(self._query_close_locations(start_lat, start_long, yelp_rating))
-        for category in categories:
-            self.cursor.execute(self._query_match_category(category))
-            self.cursor.execute(self._query_get_number(number))
-            initial_length = len(results)
-            results.extend(self.cursor.fetchall())
-            final_length = len(results)
-            lengths.append(final_length - initial_length)
+        for entry in entries:
+            if self._is_a_category(entry):
+                query = self._query_category(start_lat, start_long, entry, yelp_perc, number)
+            else:
+                query = self._query_name(start_lat, start_long, entry, yelp_perc, number)
+            self.cursor.execute(query)
+            data = self.cursor.fetchall()
+            length = len(data)
+            if not length:
+                raise Exception("No locations found for entry {0}".format(entry))
+            results.extend(data)
+            lengths.append(length)
         return results, lengths
     
 if __name__ == '__main__':
     db = sql()
-    start_lat = 37.524968
-    start_long = -122.2508315
-    yelp_rating = 3.5
-    categories = ['cafes','hair','grocery','lounges']
+    start_lat,start_long = 37.524968,-122.2508315
+    yelp_rating = 20#top percent
+    categories = ['Town','Department Stores','Grocery','Drugstores']
     number = 6
     listings, groups = db.get_listings(start_lat, start_long, yelp_rating, categories, number)
-    print groups
-    print listings
+    print listings, groups

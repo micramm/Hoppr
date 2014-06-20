@@ -1,0 +1,22 @@
+{% extends "layout/base.html" %}
+
+{% block content %}
+
+<style>
+      body {
+        background: url("https://farm9.staticflickr.com/8061/8179292267_a7c3b34fcf_h.jpg") no-repeat center center fixed;
+                -webkit-background-size: cover;
+               -moz-background-size: cover;
+               -o-background-size: cover;
+               background-size: cover;
+               /*background-position:0% 50%;*/
+      }
+</style>
+
+<div class="container">
+	<div class="usererror">
+		<h2>Error: {{message}}</h2>
+	</div>
+</div>
+{% endblock %}
+
