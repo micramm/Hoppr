@@ -69,10 +69,6 @@ WHERE categories.full_category = "{}"
         """
         results = []
         lengths = []
-        
-        import time
-        t1 = time.time()
-        
         for entry in entries:
             if self._is_a_category(entry):
                 query = self._query_category(start_lat, start_long, entry, yelp_perc, number)
@@ -85,9 +81,6 @@ WHERE categories.full_category = "{}"
                 raise Exception("No locations found for entry {0}".format(entry))
             results.extend(data)
             lengths.append(length)
-        
-        print time.time() - t1
-        
         return results, lengths
     
 if __name__ == '__main__':

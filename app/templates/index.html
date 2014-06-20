@@ -142,7 +142,6 @@
 	//clicking AddCategoryButton adds a text field
 	$("#addDestinationButton").click(function (e){ 
 		var text = $("#desintationEntry").val();
-		console.log(text);
 		add_list_item(text);
 		// clear the text field
 		$("#desintationEntry").val("");
@@ -154,7 +153,6 @@
 		var li = $(this).parent()[0];
 		var text = li.childNodes[0].data;
 		var index = desintationList.indexOf(text);
-		console.log(index);
 		if (index !== -1) {
 			desintationList.splice(index, 1);
 		}
@@ -174,7 +172,6 @@
 		entries['yelp_rating'] = yelp_rating_dropdown.value;
 		var start = document.getElementById('startingLocation');
 		entries["start"] = start.value;
-		console.log(entries);
 		window.location.href = '/results/' + encodeURIComponent(JSON.stringify(entries));
 		return 0;
 	});

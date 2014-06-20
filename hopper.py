@@ -28,7 +28,6 @@ class hopper(object):
         coordinates.extend('{0},{1}'.format(res[-4],res[-3]) for res in listings)
         sums = list(self._cumsum(lengths))
         common_groups = [range(sums[k], sums[k+1]) for k in range(len(sums) - 1)]
-        print common_groups
         distances = self.distance_api.get_all_to_all_matrix(coordinates)
         shortest_length, path = self.finder.get_fastest_path(distances, common_groups, start = 0, stop = 0)
         return [listings[p - 1] for p in path]
