@@ -18,11 +18,10 @@
 	<div class="col-lg-12 col-lg-offset-0">
 	<!-- starting table columns -->
 		<div class="col-lg-4 well" id="location_results">
-			<table class="table" style="font-family: Helvetica, sans-serif;font-size: 20px;">
+			<table class="table dest_table_font">
 				<thead>
 					<tr>
-						<th></th>
-						<th>Location</th>
+						<th colspan=2>Destinatons</th>
 		        	</tr>
 		      	</thead>
 		      	<tbody>
@@ -36,30 +35,86 @@
 		          		</td>
 		        	</tr>
 		      	{% endfor %}
+		      		<!-- for filling later with JS -->
+		      		<tr>
+		      			<td id ="travel_info" colspan=2></td>
+		      		</tr>
 		      	</tbody>
 	    	</table>
 	    <!-- end of table columns -->
 	    </div>
     <!-- start of the map columns -->
 	    <div class="col-lg-8 col-lg-offset-0">
-	    	<div id="map-canvas">
-	    	</div>
+	    	<div id="map-canvas"></div>
 	    </div>
 	</div>
 <!-- finishing the container -->
 </div>
 <script>
 // initializing google maps
+var directionsDisplay;
+var directionsService = new google.maps.DirectionsService();
 var map;
+
 function initialize() {
-  var mapOptions = {
-    zoom: 10,
-    center: new google.maps.LatLng(37.4828, -122.2361)
-  };
-  console.log(document.getElementById('map-canvas'));
-  
-  map = new google.maps.Map(document.getElementById('map-canvas'),
-      mapOptions);
+	directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers:true});
+  	var mapOptions = {
+  	};
+  	map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+  	directionsDisplay.setMap(map);
+  	calcRoute();
+	addMarkers();
+}
+
+function addMarkers() {
+	addMarker({{start[0]}},{{start[1]}}, "<div class=\"map_label_font\">Start</div>");
+	{% for loc in locations %} 	
+  	addMarker({{loc[-4]}},{{loc[-3]}}, "<div class=\"map_label_font\">{{loop.index}}. {{loc[1]}}</div>");
+  	{% endfor %}
+}
+
+function addMarker(latitude, longitude, text) {
+	var start = new google.maps.LatLng(latitude, longitude);
+	var marker = new google.maps.Marker({position: start, map: map});
+	var infowindow = new google.maps.InfoWindow({content: text});
+	infowindow.open(map,marker);
+}	
+	
+function calcRoute() {
+  	var start = new google.maps.LatLng({{start[0]}},{{start[1]}});
+  	var end = new google.maps.LatLng({{start[0]}},{{start[1]}});
+ 	var waypoints = [];
+ 	{% for loc in locations %} 	
+  	waypoints.push({location:new google.maps.LatLng({{loc[-4]}},{{loc[-3]}})});
+  	{% endfor %}
+  	var request = {
+  		origin:start,
+  		destination:end,
+  		travelMode: google.maps.TravelMode.DRIVING,
+  		waypoints: waypoints
+  	};
+  	directionsService.route(request, function(response, status) {
+  		if (status == google.maps.DirectionsStatus.OK) {
+    		directionsDisplay.setDirections(response);
+    		var route = response.routes[0];
+    		var total_distance = 0;
+    		var total_time = 0;
+    		for (var i = 0; i < route.legs.length; i++){
+      			var distance = route.legs[i].distance;
+      			var duration = route.legs[i].duration;
+				total_distance += distance.value;
+				total_time += duration.value;
+			};
+			addTravelInfo(total_distance, total_time);
+     	}
+	});
+}
+
+function addTravelInfo(distance_feet, time_sec){
+	var div = document.getElementById("travel_info");
+	distance = distance_feet / 5280;
+	time = time_sec / 60;
+	div.innerText = "Total distance: " + distance.toFixed(1) +"mi (" + time.toFixed(0) + " min)";
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);

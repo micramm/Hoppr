@@ -64,3 +64,15 @@ body {
     margin: 0px;
     padding: 0px;
   }
+
+.dest_table_font {
+	font-family: Helvetica, sans-serif;font-size: 20px;
+}
+
+.map_label_font {
+	font-family: Arial, sans-serif;font-size: 18px;
+}
+
+#travel_info {
+	font-weight: bold;
+}
