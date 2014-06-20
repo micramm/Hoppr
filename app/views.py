@@ -20,7 +20,12 @@ def about():
 @app.route('/author')
 def contact():
     # Renders author.html.
-    return redirect("http://www.michael-ramm.com", code=302) 
+    return redirect("http://www.michael-ramm.com", code=302)
+
+@app.route('/test')
+def test():
+    # Renders author.html.
+    return '<div>TEST</div>'
 
 @app.route('/results/<entered>', methods=['GET', 'POST'])
 def results(entered):
