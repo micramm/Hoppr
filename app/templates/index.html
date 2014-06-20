@@ -175,7 +175,7 @@
 		var start = document.getElementById('startingLocation');
 		entries["start"] = start.value;
 		console.log(entries);
-		window.location.href = '/results/' + JSON.stringify(entries);
+		window.location.href = '/results/' + encodeURIComponent(JSON.stringify(entries));
 		return 0;
 	});
 	
