@@ -22,7 +22,7 @@ def contact():
     # Renders author.html.
     return redirect("http://www.michael-ramm.com", code=302) 
 
-@app.route('/results/<entered>')
+@app.route('/results/<entered>', methods=['GET', 'POST'])
 def results(entered):
     entered = json.loads(entered)
     start_address, categories, yelp_perc  = sanitize_input(entered)
