@@ -1,53 +1,68 @@
 {% extends "layout/base.html" %}
 
 {% block content %}
-  <div id="wrap">
-    <div class="container">
-      <!-- <div class="starter-template"> -->
-      	<table class="table table-bordered table-condensed table-striped">
-      		<tr>
-      			<td>Name</td>
-      			<td>Address</td>
-      			<td>Category</td>
-      		</tr>
-      		<tr>
-      			<td>Home</td>
-      			<td>{{loc0}}</td>
-      			<td>start</td>
-      		</tr>
-      		<tr>
-      			<td>{{loc1[0]}}</td>
-      			<td>{{loc1[2]}}</td>
-      			<td>{{loc1[1]}}</td>
-      		</tr>
-      		<tr>
-      			<td>{{loc2[0]}}</td>
-      			<td>{{loc2[2]}}</td>
-      			<td>{{loc2[1]}}</td>
-      		</tr>
-      		<tr>
-      			<td>{{loc3[0]}}</td>
-      			<td>{{loc3[2]}}</td>
-      			<td>{{loc3[1]}}</td>
-      		</tr>
-      		<tr>
-      			<td>{{loc4[0]}}</td>
-      			<td>{{loc4[2]}}</td>
-      			<td>{{loc4[1]}}</td>
-      		</tr>
-      		<tr>
-      			<td>Home</td>
-      			<td>{{loc0}}</td>
-      			<td>finish</td>
-      		</tr>
-        </table>
-        <h3><a href="{{url}}">Map</a></h3>
-      </div>
-    <!-- </div> -->
-  </div>
+    <style>
+      body {
+        background: url("https://farm9.staticflickr.com/8061/8179292267_a7c3b34fcf_h.jpg") no-repeat center center fixed;
+                -webkit-background-size: cover;
+               -moz-background-size: cover;
+               -o-background-size: cover;
+               background-size: cover;
+               /*background-position:0% 50%;*/
+      }
+    </style>
+<!-- loading google maps api -->
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+<!-- starting the container -->
+<div class="container">
+	<div class="col-lg-12 col-lg-offset-0">
+	<!-- starting table columns -->
+		<div class="col-lg-4 well" id="location_results">
+			<table class="table" style="font-family: Helvetica, sans-serif;font-size: 20px;">
+				<thead>
+					<tr>
+						<th></th>
+						<th>Location</th>
+		        	</tr>
+		      	</thead>
+		      	<tbody>
+	      		<!-- adding rows programatically -->
+		      	{% for loc in locations %}
+					<tr>
+		          		<td>{{loop.index}}</td>
+		          		<td><a href={{loc[8]}} style="font-weight:bold" onclick="window.open(this.href); return false;">{{loc[1]}}</a><br>
+		          			<img src={{loc[7]}} height=20><br>
+		          			{{loc[3]}}<br>
+		          		</td>
+		        	</tr>
+		      	{% endfor %}
+		      	</tbody>
+	    	</table>
+	    <!-- end of table columns -->
+	    </div>
+    <!-- start of the map columns -->
+	    <div class="col-lg-8 col-lg-offset-0">
+	    	<div id="map-canvas">
+	    	</div>
+	    </div>
+	</div>
+<!-- finishing the container -->
+</div>
+<script>
+// initializing google maps
+var map;
+function initialize() {
+  var mapOptions = {
+    zoom: 10,
+    center: new google.maps.LatLng(37.4828, -122.2361)
+  };
+  console.log(document.getElementById('map-canvas'));
   
-{% endblock %}
+  map = new google.maps.Map(document.getElementById('map-canvas'),
+      mapOptions);
+}
 
-{% block footer %}
-  {% include "include/footer.html" %}
+google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+
 {% endblock %}

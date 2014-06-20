@@ -9,16 +9,6 @@ body {
   /* The html and body elements cannot have any padding or margin. */
 }
 
-/* Wrapper for page content to push down footer */
-#wrap {
-  min-height: 100%;
-  height: auto;
-  /* Negative indent footer by its height */
-  margin: 70px 0 -40px auto;
-  /* Pad bottom by footer height */
-  padding: 0 0 40px;
-}
-
 /* Genericon social icon styles
 ---------------------------------------------------- */
 .genericon-github:before,
@@ -63,3 +53,14 @@ body {
 	background-color: rgba(245, 245, 245, 0.75);
 	padding: 10px;
 }
+
+#location_results {
+	background-color: rgba(245, 245, 245, 0.9);
+}
+
+#map-canvas {
+    height: 600px;
+    width:  100%;
+    margin: 0px;
+    padding: 0px;
+  }

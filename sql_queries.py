@@ -16,35 +16,39 @@ class sql(object):
         
     def _query_category(self, latitude, longitude, category, yelp_perc, number):
         #returns number i.e 6 closest locations to the given lat/long point for a business in the provided category that is in the top perc of all businesses of that category 
-        return """SELECT * 
-FROM
+        return """SELECT *
+FROM 
 (
-    SELECT categories.id as id, name, full_category, display_address, image_url, phone, rating, rating_image_url_large, url, latitude, longitude, SQRT(POW((latitude - {latitude}),2) + POW((longitude - {longitude}),2)) as distance, @counter := @counter +1 counter
-    FROM (select @counter:=0) initvar, categories
-    JOIN yelp
-    ON yelp.id = categories.id
-    WHERE categories.full_category = "{category}"
-    ORDER BY rating DESC
-) AS X
+    SELECT tbl.*, @counter := @counter +1 counter
+    FROM (SELECT @counter:=0) initvar, 
+                (SELECT categories.id as id, name, full_category, display_address, image_url, phone, rating, rating_image_url_large,                                                             url, latitude, longitude, SQRT(POW((latitude - {latitude}),2) + POW((longitude - {longitude}),2)) as distance
+                FROM yelp
+                JOIN categories
+                on yelp.id = categories.id
+                WHERE categories.full_category = "{category}") as tbl
+    ORDER BY rating DESC) as X
 WHERE counter <= CEILING({yelp_perc}/100 * @counter)
-ORDER BY distance ASC
-LIMIT {number}""".format(category = category, latitude = latitude, longitude = longitude, number = number, yelp_perc = yelp_perc)
+ORDER BY distance
+LIMIT 6
+""".format(category = category, latitude = latitude, longitude = longitude, number = number, yelp_perc = yelp_perc)
 
     def _query_name(self, latitude, longitude, name, yelp_perc, number):
         #same as _query_category for porbing business name
-        return """SELECT * 
-FROM
+        return """SELECT *
+FROM 
 (
-    SELECT categories.id as id, name, full_category, display_address, image_url, phone, rating, rating_image_url_large, url, latitude, longitude, SQRT(POW((latitude - {latitude}),2) + POW((longitude - {longitude}),2)) as distance, @counter := @counter +1 counter
-    FROM (select @counter:=0) initvar, categories
-    JOIN yelp
-    ON yelp.id = categories.id
-    WHERE yelp.name = "{name}"
-    ORDER BY rating DESC
-) AS X
+    SELECT tbl.*, @counter := @counter +1 counter
+    FROM (SELECT @counter:=0) initvar, 
+                (SELECT categories.id as id, name, full_category, display_address, image_url, phone, rating, rating_image_url_large,                                                             url, latitude, longitude, SQRT(POW((latitude - {latitude}),2) + POW((longitude - {longitude}),2)) as distance
+                FROM yelp
+                JOIN categories
+                on yelp.id = categories.id
+                WHERE yelp.name = "{name}") as tbl
+    ORDER BY rating DESC) as X
 WHERE counter <= CEILING({yelp_perc}/100 * @counter)
-ORDER BY distance ASC
-LIMIT {number}""".format(name = name, latitude = latitude, longitude = longitude, number = number, yelp_perc = yelp_perc)
+ORDER BY distance
+LIMIT 6
+""".format(name = name, latitude = latitude, longitude = longitude, number = number, yelp_perc = yelp_perc)
 
     def _is_a_category(self, text):
         #returns whether a given text is among categories
@@ -64,7 +68,7 @@ WHERE categories.full_category = "{}"
         each category
         """
         results = []
-        lengths = []
+        lengths = []    
         for entry in entries:
             if self._is_a_category(entry):
                 query = self._query_category(start_lat, start_long, entry, yelp_perc, number)
