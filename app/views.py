@@ -26,7 +26,7 @@ def contact():
 def test():
     # Renders author.html.
     p = 'hi'
-    return render_template('slides.html', p = p)
+    return render_template('test.html', p = p)
 
 
 @app.route('/results/<entered>', methods=['GET', 'POST'])
