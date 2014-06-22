@@ -3,39 +3,43 @@
 {% block content %}
 <div class="container">
 	<!-- The starting location entry field	 -->
-	<div class ="col-lg-8 col-lg-offset-0" style="padding-left:0px">
-		<div class="well">
-			<h1>Hoppr around town</h1>
-			<div class="row">		
-	  			<div class="col-lg-7">
-	    			<input type="text" class="form-control input-lg" id="startingLocation" placeholder="Starting Location">
-		  		</div>
-		  		<div class="col-lg-3">
-		    		<select id="yelp_rating" class="btn btn-info form-control input-lg">
-	  					<option>Yelp: Top 10%</option>
-	  					<option>Yelp: Top 25%</option>
-	  					<option selected="selected">Yelp: Top 50%</option>
-	  					<option>Yelp: Top 75%</option>
-	  					<option>Everything</option>
-					</select>
-	  			</div>
-	  			<div class="col-lg-2">
-	  				<button id="submit" type="button" class="btn btn-primary btn-block input-lg">Submit</button>
+	<div class="row">
+		<div class ="col-sm-8">
+			<div class="well">
+				<h1>Hoppr around town</h1>
+				<div class="row">		
+		  			<div class="col-sm-7">
+		    			<input type="text" class="form-control input-lg" id="startingLocation" placeholder="Starting Location">
+			  		</div>
+			  		<div class="col-sm-3">
+			    		<select id="yelp_rating" class="btn btn-info form-control input-lg">
+		  					<option>Top 10%</option>
+		  					<option>Top 25%</option>
+		  					<option selected="selected">Top 50%</option>
+		  					<option>Top 75%</option>
+		  					<option>Everything</option>
+						</select>
+		  			</div>
+		  			<div class="col-sm-2">
+		  				<button id="submit" type="button" class="btn btn-primary btn-block input-lg">Submit</button>
+					</div>
 				</div>
 			</div>
 		</div>
-	<!-- Closing the entry field -->
+	<!-- Closing the strating location field -->
 	</div>
 	<!-- Starting bottom well -->
-	<div class ="col-lg-11 well" style="padding-left:0px">
-			<!-- Starting itenrary field-->
-			<div class ="col-lg-5 col-lg-offset-0">
+	<div class="well">
+		<div class="row">
+			<!-- starting the left column -->
+			<div class ="col-sm-5">
+			<!-- <div class="well"> -->
 				<h2>Add Destinations</h2>
-				<div class="row">
-					<div class="col-lg-9">
+				<div class="row">		
+		  			<div class="col-md-9">
 		    			<input type="text" class="form-control input-lg" id="desintationEntry">
 		    		</div>
-		    		<div class="col-lg-3">
+		    		<div class="col-md-3">
 						<button id="addDestinationButton" type="button" class="btn btn-info btn-block input-lg">Add</a>
 					</div>
 				</div>
@@ -43,70 +47,82 @@
 					<div id="ListWrapper">
 					</div>
 				</ol>
-			</div>	
-			<!-- Starting the grid of icons-->
-			<div class ="container col-lg-6 col-lg-offset-1">
+			<!-- Ending the left columsn -->
+			</div>
+			<!-- Starting the right column, grid of icons -->
+			<div class ="col-sm-7">
+				<!-- first row -->
 				<div class="row">
-	        		<div class = "col-lg-3 nopadding">
+	        		<div class = "col-sm-3 nopadding">
 	        			<div class="text-info grid_image_label">grocery</div>
 	        			<img class="img-thumbnail grid_image" id="Grocery" src="/static/images/shoppingcart.png">
 	        		</div>
-	        		<div class = "col-lg-3">
+	        		<div class = "col-sm-3">
 	        			<div class="text-info grid_image_label">bank</div>
 	        			<img class="img-thumbnail grid_image" id="Banks & Credit Unions" src="/static/images/bank.png">
 	        		</div>
-	        		<div class = "col-lg-3">
+	        		<div class = "col-sm-3">
 	        			<div class="text-info grid_image_label">usps</div>
 	        			<img class="img-thumbnail grid_image" id="Post Offices" src="/static/images/envelope.png">
 	        		</div>
-					<div class = "col-lg-3">
+					<div class = "col-sm-3">
 						<div class="text-info grid_image_label">pharmacy</div>
 	        			<img class="img-thumbnail grid_image" id="Drugstores" src="/static/images/cross.png">
 	        		</div>
+	        	<!-- closing first row -->
 				</div>
 				<br>
+				<!-- second row -->
 				<div class="row">
-	        		<div class = "col-lg-3 nopadding">
+	        		<div class = "col-sm-3 nopadding">
 	        			<div class="text-info grid_image_label">Stores</div>
 	        			<img class="img-thumbnail grid_image" id="Department Stores" src="/static/images/hanger.png">
 	        		</div>
-					<div class = "col-lg-3">
+					<div class = "col-sm-3">
 						<div class="text-info grid_image_label">hair</div>
 	        			<img class="img-thumbnail grid_image" id="Hair Salons" src="/static/images/hair.jpg">
 	        		</div>
-					<div class = "col-lg-3">
+					<div class = "col-sm-3">
 						<div class="text-info grid_image_label">laundry</div>
 	        			<img class="img-thumbnail grid_image" id="Dry Cleaning & Laundry" src="/static/images/laundry.png">
 	        		</div>
-	        		<div class = "col-lg-3">
+	        		<div class = "col-sm-3">
 	        			<div class="text-info grid_image_label">coffee</div>
 	        			<img class="img-thumbnail grid_image" id="Coffee & Tea" src="/static/images/coffee.png">
 	        		</div>
+	        	<!-- closing second row -->
 	        	</div>
-	        	<br>
+				<br>
+				<!-- third row -->
 	        	<div class="row">
-					<div class = "col-lg-3">
+					<div class = "col-sm-3">
 						<div class="text-info grid_image_label">chinese</div>
 	        			<img class="img-thumbnail grid_image" id="Chinese" src="/static/images/chinese.png">
 	        		</div>
-	        		<div class = "col-lg-3">
+	        		<div class = "col-sm-3">
 	        			<div class="text-info grid_image_label">italian</div>
 	        			<img class="img-thumbnail grid_image" id="Italian" src="/static/images/pizza.png">
 	        		</div>
-	     			<div class = "col-lg-3">
+	     			<div class = "col-sm-3">
 	        			<div class="text-info grid_image_label">liquor</div>
 	        			<img class="img-thumbnail grid_image" id="Beer, Wine & Spirits" src="/static/images/wine.png">
 	        		</div>
-					<div class = "col-lg-3">
+					<div class = "col-sm-3">
 						<div class="text-info grid_image_label">bakery</div>
 						<img class="img-thumbnail grid_image" id="Bakeries" src="/static/images/cupcake.png">
 	        		</div>
+	        	<!-- closing third row -->
 				</div>
+			<!-- Ending the right column -->
 			</div>
-	<!-- Ending bottom well -->
+
+		<!-- Closing the bottom row -->
+		</div>
+	<!-- Closing the bottom well-->
 	</div>
 <!-- end of container -->
 </div>
+
 {% endblock %}
 {% block scripts %}
 <script type="text/javascript">
