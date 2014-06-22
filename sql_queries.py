@@ -10,7 +10,7 @@ class sql(object):
     
     def __init__(self):
 #         conn = pymysql.connect(host='localhost', user='root')
-        conn = pymysql.connect(host='insight.clzrh9aax7lr.us-east-1.rds.amazonaws.com', user='michaelramm', passwd = access_keys.amazon_rds_password)
+        conn = pymysql.connect(host='insight.clzrh9aax7lr.us-east-1.rds.amazonaws.com', user=access_keys.amazon_rds_user, passwd = access_keys.amazon_rds_password)
         self.cursor = conn.cursor()
         self.cursor.execute("""USE {};""".format(database_name))
         
