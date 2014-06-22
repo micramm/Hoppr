@@ -64,6 +64,7 @@ function addMarkers() {
 }
 
 function addMarker(latitude, longitude, text) {
+	console.log('Adding marker' + text);
 	var start = new google.maps.LatLng(latitude, longitude);
 	var marker = new google.maps.Marker({position: start, map: map});
 	var infowindow = new google.maps.InfoWindow({content: text});
