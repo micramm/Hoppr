@@ -1,4 +1,4 @@
-/* Your CSS Styling */
+/*/* Your CSS Styling */
 
 /* Sticky footer styles
 -------------------------------------------------- */
@@ -20,14 +20,6 @@ body {
 
 /* Genericon social icon styles
 ---------------------------------------------------- */
-.genericon-github:before,
-.genericon-linkedin:before,
-.genericon-twitter:before {
-    -webkit-font-smoothing: antialiased;
-    font: normal 32px/1 'Genericons';
-    vertical-align: middle;
-}
-
 .grid_image {
 	height: 100px;
 	width: 100px;
@@ -82,9 +74,8 @@ body {
 
 .map_label_font {
 	font-family: Arial, sans-serif;font-size: 18px;
-	white-space: nowrap;
 }
 
 #travel_info {
 	font-weight: bold;
-}
+}*/

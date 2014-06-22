@@ -1,7 +1,6 @@
 {% extends "layout/base.html" %}
 
 {% block content %}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <div class="container">
 	<!-- The starting location entry field	 -->
 	<div class ="col-lg-8 col-lg-offset-0" style="padding-left:0px">
@@ -108,6 +107,8 @@
 	</div>
 <!-- end of container -->
 </div>
+{% endblock %}
+{% block scripts %}
 <script type="text/javascript">
 	var maxDestinations = 4;
 	var desintationList = [];
@@ -173,5 +174,4 @@
 		return 0;
 		});
 </script>
-
 {% endblock %}
