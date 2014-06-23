@@ -33,7 +33,8 @@ def results(entered):
         locations = hopper.get_path(start_lat, start_long, yelp_perc, categories)
     except Exception as e:
         raise InvalidUsage(e)
-    return render_template('results.html', locations = locations, start = (start_lat,start_long))
+    suggestion = hopper.get_recommended(locations)
+    return render_template('results.html', locations = locations, start = (start_lat,start_long), suggestion=suggestion)
 
 def sanitize_input(entered):
     start = entered.get("start", None)

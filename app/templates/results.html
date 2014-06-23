@@ -25,9 +25,12 @@
 		          		</td>
 		        	</tr>
 		      	{% endfor %}
-		      		<!-- for filling later with JS -->
+		      		<!-- for filling later with JS calculating total distance and time -->
 		      		<tr>
 		      			<td id ="travel_info" colspan=2></td>
+		      		</tr>
+					<tr>
+		      			<td id = "suggestion" colspan=2></td>
 		      		</tr>
 		      	</tbody>
 	    	</table>
@@ -48,12 +51,14 @@ var map;
 
 function initialize() {
 	directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers:true});
-  	var mapOptions = {
-  	};
+  	var mapOptions = {};
   	map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
   	directionsDisplay.setMap(map);
   	calcRoute();
 	addMarkers();
+	{% if not suggestion is none%}
+	addSuggestion();
+	{% endif %}
 }
 
 function addMarkers() {
@@ -105,7 +110,13 @@ function addTravelInfo(distance_feet, time_sec){
 	var div = document.getElementById("travel_info");
 	distance = distance_feet / 5280;
 	time = time_sec / 60;
-	div.innerText = "Total distance: " + distance.toFixed(1) +"mi (" + time.toFixed(0) + " min)";
+	div.innerText = "Total distance: " + distance.toFixed(1) +" mi (" + time.toFixed(0) + " min)";
+}
+
+function addSuggestion(){
+	var div = document.getElementById("suggestion");
+	div.innerHTML = 'You may also want to visit: <a style="font-weight:bold" href="{{suggestion[1]}}">{{suggestion[0]}}</a>';
+	addMarker({{suggestion[2]}}, {{suggestion[3]}}, "<div class=\"map_label_font\" style=\"color:blue\">{{suggestion[0]}}</div>");
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);

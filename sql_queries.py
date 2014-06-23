@@ -62,6 +62,20 @@ WHERE categories.full_category = "{}"
         count = self.cursor.fetchall()
         count = count[0][0]
         return count > 0
+    
+    def _query_recommendations(self, ids):
+        ids = tuple(ids)
+        return """SELECT selected_yelp.id, name, latitude, longitude, prob, full_category, url
+FROM    (SELECT id, name, latitude, longitude, url, prob
+        FROM    (SELECT `to_id`, prob
+                FROM next_dest
+                WHERE from_id IN {ids}) as selected
+        JOIN
+        yelp ON to_id = yelp.id) as selected_yelp
+JOIN categories
+ON selected_yelp.id = categories.id
+ORDER BY prob DESC""".format(ids = ids)
+        
 
     def get_listings(self, start_lat, start_long, yelp_perc, entries, number = 6):
         """
@@ -87,11 +101,22 @@ WHERE categories.full_category = "{}"
             lengths.append(length)
         return results, lengths
     
+    def get_recommendations(self, ids):
+        query = self._query_recommendations(ids)
+        #reconnect in case of a wait_timeout
+        self.conn.ping(reconnect = True)
+        self.cursor.execute(query)
+        data = self.cursor.fetchall()
+        return data
+        
+        
+    
 if __name__ == '__main__':
     db = sql()
-    start_lat,start_long = 37.524968,-122.2508315
-    yelp_rating = 20#top percent
-    categories = ['Town','Department Stores','Grocery','Drugstores']
-    number = 6
-    listings, groups = db.get_listings(start_lat, start_long, yelp_rating, categories, number)
-    print listings, groups
+#     start_lat,start_long = 37.524968,-122.2508315
+#     yelp_rating = 20#top percent
+#     categories = ['Town','Department Stores','Grocery','Drugstores']
+#     number = 6
+#     listings, groups = db.get_listings(start_lat, start_long, yelp_rating, categories, number)
+#     print listings, groups
+    print db.get_recommendations(('town-san-carlos','100-sweet-cafe-san-francisco'))
