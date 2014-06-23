@@ -9,9 +9,9 @@ database_name = 'Insight'
 class sql(object):
     
     def __init__(self):
-#         conn = pymysql.connect(host='localhost', user='root')
-        conn = pymysql.connect(host='insight.clzrh9aax7lr.us-east-1.rds.amazonaws.com', user=access_keys.amazon_rds_user, passwd = access_keys.amazon_rds_password)
-        self.cursor = conn.cursor()
+#         self.conn = pymysql.connect(host='localhost', user='root')
+        self.conn = pymysql.connect(host='insight.clzrh9aax7lr.us-east-1.rds.amazonaws.com', user=access_keys.amazon_rds_user, passwd = access_keys.amazon_rds_password)
+        self.cursor = self.conn.cursor()
         self.cursor.execute("""USE {};""".format(database_name))
         
     def _query_category(self, latitude, longitude, category, yelp_perc, number):
@@ -56,6 +56,8 @@ LIMIT 6
 FROM categories 
 WHERE categories.full_category = "{}"
 """.format(text)
+        #reconnect in case of a wait_timeout
+        self.conn.ping(reconnect = True)
         self.cursor.execute(query)
         count = self.cursor.fetchall()
         count = count[0][0]
@@ -69,6 +71,8 @@ WHERE categories.full_category = "{}"
         """
         results = []
         lengths = []
+        #reconnect in case of a wait_timeout
+        self.conn.ping(reconnect = True)
         for entry in entries:
             if self._is_a_category(entry):
                 query = self._query_category(start_lat, start_long, entry, yelp_perc, number)
