@@ -64,17 +64,17 @@ WHERE categories.full_category = "{}"
         return count > 0
     
     def _query_recommendations(self, ids):
-        ids = tuple(ids)
+        ids = ['"'+str(i)+'"' for i in ids]
         return """SELECT selected_yelp.id, name, latitude, longitude, prob, full_category, url
 FROM    (SELECT id, name, latitude, longitude, url, prob
         FROM    (SELECT `to_id`, prob
                 FROM next_dest
-                WHERE from_id IN {ids}) as selected
+                WHERE from_id IN ({0})) as selected
         JOIN
         yelp ON to_id = yelp.id) as selected_yelp
 JOIN categories
 ON selected_yelp.id = categories.id
-ORDER BY prob DESC""".format(ids = ids)
+ORDER BY prob DESC""".format(','.join(ids))
         
 
     def get_listings(self, start_lat, start_long, yelp_perc, entries, number = 6):
@@ -108,9 +108,7 @@ ORDER BY prob DESC""".format(ids = ids)
         self.cursor.execute(query)
         data = self.cursor.fetchall()
         return data
-        
-        
-    
+
 if __name__ == '__main__':
     db = sql()
 #     start_lat,start_long = 37.524968,-122.2508315

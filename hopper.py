@@ -47,7 +47,6 @@ class hopper(object):
         ids = [place[0] for place in path]
         cats = [place[2] for place in path]
         suggestions = self.db.get_recommendations(ids)
-        print suggestions
         for sug_id,sug_name, sug_lat, sug_long, prob, sug_cat, sug_url in suggestions:
             if not sug_cat in cats:
                 return [sug_name, sug_url, sug_lat, sug_long]
