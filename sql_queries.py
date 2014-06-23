@@ -4,15 +4,12 @@ Class for performing queries on the mysql database
 import pymysql
 from access_keys import access_keys
 
-database_name = 'Insight' 
-
 class sql(object):
     
     def __init__(self):
-#         self.conn = pymysql.connect(host='localhost', user='root')
-        self.conn = pymysql.connect(host='insight.clzrh9aax7lr.us-east-1.rds.amazonaws.com', user=access_keys.amazon_rds_user, passwd = access_keys.amazon_rds_password)
+#         self.conn = pymysql.connect(host='localhost', user=access_keys.amazon_rds_user, passwd = access_keys.amazon_rds_password, database = access_keys.sql_database_name)
+        self.conn = pymysql.connect(host='insight.clzrh9aax7lr.us-east-1.rds.amazonaws.com', user=access_keys.amazon_rds_user, passwd = access_keys.amazon_rds_password, database = access_keys.sql_database_name)
         self.cursor = self.conn.cursor()
-        self.cursor.execute("""USE {};""".format(database_name))
         
     def _query_category(self, latitude, longitude, category, yelp_perc, number):
         #returns number i.e 6 closest locations to the given lat/long point for a business in the provided category that is in the top perc of all businesses of that category 
@@ -21,7 +18,7 @@ FROM
 (
     SELECT tbl.*, @counter := @counter +1 counter
     FROM (SELECT @counter:=0) initvar, 
-                (SELECT categories.id as id, name, full_category, display_address, image_url, phone, rating, rating_image_url_large,                                                             url, latitude, longitude, SQRT(POW((latitude - {latitude}),2) + POW((longitude - {longitude}),2)) as distance
+                (SELECT categories.id as id, name, full_category, display_address, image_url, phone, rating, rating_image_url_large, url, latitude, longitude, SQRT(POW((latitude - {latitude}),2) + POW((longitude - {longitude}),2)) as distance
                 FROM yelp
                 JOIN categories
                 on yelp.id = categories.id
