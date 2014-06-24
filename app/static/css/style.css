@@ -73,6 +73,8 @@ body {
 
 .map_label_font {
 	font-family: Arial, sans-serif;font-size: 18px;
+	overflow: hidden; 
+	white-space: nowrap;
 }
 
 #travel_info {
