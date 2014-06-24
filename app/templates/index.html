@@ -124,6 +124,9 @@
 
 {% endblock %}
 {% block scripts %}
+<!-- places javascript API -->
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
+
 <script type="text/javascript">
 	var maxDestinations = 4;
 	var desintationList = [];
@@ -188,5 +191,16 @@
 		add_list_item(text);
 		return 0;
 		});
+		
+	//autocomplete for startingLocation
+	var input = /** @type {HTMLInputElement} */(
+      document.getElementById('startingLocation'));
+    var autocomplete = new google.maps.places.Autocomplete(input);
+    //restrict to Bay Area
+    var sw = google.maps.LatLng(37.3333, -122.5311);
+    var ne = google.maps.LatLng(37.9736, -121.9000);
+    var LatLngBounds = google.maps.LatLngBounds(sw, ne);
+    autocomplete.setBounds(LatLngBounds);
+    
 </script>
 {% endblock %}

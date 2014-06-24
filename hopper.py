@@ -9,7 +9,7 @@ import mapquest_api
 class hopper(object):
     
     def __init__(self):
-        self.bay_area_range = (37.3333, 37.9736, -122.5311 , 121.9000)
+        self.bay_area_range = (37.3333, 37.9736, -122.5311 , -121.9000)
         self.db = sql_queries.sql()
         self.finder = path_finder.path_finder()
         self.distance_api = mapquest_api.mapquest_api()
