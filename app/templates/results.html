@@ -57,7 +57,9 @@ function initialize() {
   	calcRoute();
 	addMarkers();
 	{% if not suggestion is none%}
-	addSuggestion();
+	var div = document.getElementById("suggestion");
+	div.innerHTML = 'You may also want to visit: <a style="font-weight:bold" href="{{suggestion[1]}}">{{suggestion[0]}}</a>';
+	addMarker({{suggestion[2]}}, {{suggestion[3]}}, "<div class=\"map_label_font\" style=\"color:blue\">{{suggestion[0]}}</div>");
 	{% endif %}
 }
 
@@ -111,12 +113,6 @@ function addTravelInfo(distance_feet, time_sec){
 	distance = distance_feet / 5280;
 	time = time_sec / 60;
 	div.innerText = "Total distance: " + distance.toFixed(1) +" mi (" + time.toFixed(0) + " min)";
-}
-
-function addSuggestion(){
-	var div = document.getElementById("suggestion");
-	div.innerHTML = 'You may also want to visit: <a style="font-weight:bold" href="{{suggestion[1]}}">{{suggestion[0]}}</a>';
-	addMarker({{suggestion[2]}}, {{suggestion[3]}}, "<div class=\"map_label_font\" style=\"color:blue\">{{suggestion[0]}}</div>");
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);

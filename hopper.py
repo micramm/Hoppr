@@ -51,6 +51,15 @@ class hopper(object):
             if not sug_cat in cats:
                 return [sug_name, sug_url, sug_lat, sug_long]
         return None
+    
+    def get_categories_and_top(self, top = 100):
+        '''returns a list of all categories and names of most common places'''
+        cats = self.db.get_categoires()
+        cats = [el[0] for el in cats]
+        top_names = self.db.get_top_names(top)
+        top_names = [el[0] for el in top_names]
+        cats.extend(top_names)
+        return cats
 
 if __name__ == '__main__':
     import time
@@ -86,6 +95,9 @@ if __name__ == '__main__':
         print time.time() - t1
         recommended = hopper.get_recommended(path_list)
         print recommended
-
+    
+    def test4():
+        print hopper.get_categories_and_top()
+        
             
-    test3()
+    test4()

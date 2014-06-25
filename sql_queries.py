@@ -105,6 +105,26 @@ ORDER BY prob DESC""".format(','.join(ids))
         self.cursor.execute(query)
         data = self.cursor.fetchall()
         return data
+    
+    def get_categoires(self):
+        query = '''SELECT DISTINCT full_category FROM categories'''
+        self.conn.ping(reconnect = True)
+        self.cursor.execute(query)
+        data = self.cursor.fetchall()
+        return data
+    
+    def get_top_names(self, limit):
+        '''returns limit number of top names of places'''
+        query = """SELECT name from (
+SELECT name, COUNT(*) as cnt
+from yelp
+GROUP BY name
+ORDER BY cnt DESC
+LIMIT {}) as x""".format(limit)
+        self.conn.ping(reconnect = True)
+        self.cursor.execute(query)
+        data = self.cursor.fetchall()
+        return data
 
 if __name__ == '__main__':
     db = sql()

@@ -24,13 +24,14 @@ def contact():
 
 @app.route('/prefetch/<x>')
 def prefetch(x):
-    print 'in fetch'
-    return '["Mercury", "Venus"]'
-#     return json([ "Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Uranusadf" ])
+    all = hopper.get_categories_and_top()
+    return json.dumps(all)
 
 @app.route('/results/<entered>', methods=['GET', 'POST'])
 def results(entered):
+    print entered
     entered = json.loads(entered)
+    print entered
     start_address, categories, yelp_perc  = sanitize_input(entered)
     start_lat,start_long = hopper.get_coordinates(start_address)
     if not hopper.in_bay_area(start_lat, start_long):
