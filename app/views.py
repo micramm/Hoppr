@@ -22,6 +22,12 @@ def contact():
     # Renders author.html.
     return redirect("http://www.michael-ramm.com", code=302)
 
+@app.route('/prefetch/<x>')
+def prefetch(x):
+    print 'in fetch'
+    return '["Mercury", "Venus"]'
+#     return json([ "Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Uranusadf" ])
+
 @app.route('/results/<entered>', methods=['GET', 'POST'])
 def results(entered):
     entered = json.loads(entered)

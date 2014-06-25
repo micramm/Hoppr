@@ -1,5 +1,9 @@
 {% extends "layout/base.html" %}
 
+{% block head %}
+<link href="{{ url_for('static', filename='css/typeahead.css') }}" rel="stylesheet">
+{% endblock %}
+
 {% block content %}
 <div class="container">
 	<!-- The starting location entry field	 -->
@@ -37,7 +41,7 @@
 				<h2>Add Destinations</h2>
 				<div class="row">		
 		  			<div class="col-md-9">
-		    			<input type="text" class="form-control input-lg" id="desintationEntry" placeholder="May enter 'Grocery' or 'Safeway'">
+		    			<input type="text" class="form-control input-lg" id="desintationEntry">
 		    		</div>
 		    		<div class="col-md-3">
 						<button id="addDestinationButton" type="button" class="btn btn-info btn-block input-lg">Add</a>
@@ -126,6 +130,8 @@
 {% block scripts %}
 <!-- places javascript API -->
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
+<!-- typeahead -->
+<script src="{{ url_for('static', filename='js/typeahead.min.js') }}"></script>
 
 <script type="text/javascript">
 	var maxDestinations = 4;
@@ -192,6 +198,19 @@
 		return 0;
 		});
 		
+</script>		
+<script src="{{ url_for('static', filename='js/typeahead.min.js') }}"></script>
+<script>
+$("document").ready(function(){
+    $("#desintationEntry").typeahead({
+        name : 'dest',
+        hint: false,
+        minLength: 3,
+        prefetch: '/prefetch/prefectch', 
+    });
+});
+</script>
+<script>	
 	//autocomplete for startingLocation
 	var input = /** @type {HTMLInputElement} */(
       document.getElementById('startingLocation'));
