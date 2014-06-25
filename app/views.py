@@ -17,11 +17,6 @@ def about():
     # Renders slides.html.
     return render_template('slides.html')
 
-@app.route('/author')
-def contact():
-    # Renders author.html.
-    return redirect("http://www.michael-ramm.com", code=302)
-
 @app.route('/prefetch/<x>')
 def prefetch(x):
     all = hopper.get_categories_and_top()
