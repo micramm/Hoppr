@@ -96,6 +96,10 @@ ORDER BY prob DESC""".format(','.join(ids))
                 raise Exception("No locations found for entry {0}".format(entry))
             results.extend(data)
             lengths.append(length)
+        #convert names to unicode
+        results = [list(r) for r in results]
+        for r in results:
+            r[1] = r[1].decode('utf-8')
         return results, lengths
     
     def get_recommendations(self, ids):
