@@ -58,7 +58,7 @@ function initialize() {
 	addMarkers();
 	{% if not suggestion is none%}
 	var div = document.getElementById("suggestion");
-	div.innerHTML = 'You may also want to visit: <a style="font-weight:bold" href="{{suggestion[1]}}">{{suggestion[0]}}</a>';
+	div.innerHTML = 'On your way, check out: <br> <a style="font-weight:bold" onclick="window.open(this.href); return false;" href="{{suggestion[1]}}">{{suggestion[0]}}</a>';
 	addMarker({{suggestion[2]}}, {{suggestion[3]}}, "<div class=\"map_label_font\" style=\"color:blue\">{{suggestion[0]}}</div>");
 	{% endif %}
 }
