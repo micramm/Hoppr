@@ -4,6 +4,7 @@ High level routing functionality
 import sql_queries
 import path_finder
 import mapquest_api
+from repoze.lru import lru_cache
 
 
 class hopper(object):
@@ -21,7 +22,8 @@ class hopper(object):
         for elem in iterator:
             s = s + elem
             yield s
-        
+            
+    @lru_cache(maxsize=500)
     def get_path(self, start_lat, start_long, yelp_rating, categories):
         listings, lengths = self.db.get_listings(start_lat, start_long, yelp_rating, categories, number = 6)
         coordinates = ['{0},{1}'.format(start_lat, start_long)]
@@ -30,8 +32,10 @@ class hopper(object):
         common_groups = [range(sums[k], sums[k+1]) for k in range(len(sums) - 1)]
         distances = self.distance_api.get_all_to_all_matrix(coordinates)
         shortest_length, path = self.finder.get_fastest_path(distances, common_groups, start = 0, stop = 0)
-        return [listings[p - 1] for p in path]
+        path = [listings[p - 1] for p in path]
+        return path
     
+    @lru_cache(maxsize=500)
     def get_coordinates(self, address):
         lat, long, quality = self.distance_api.get_latlong([address])[0]
         return lat,long

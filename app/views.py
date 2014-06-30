@@ -24,15 +24,13 @@ def prefetch(x):
 
 @app.route('/results/<entered>', methods=['GET', 'POST'])
 def results(entered):
-    print entered
     entered = json.loads(entered)
-    print entered
     start_address, categories, yelp_perc  = sanitize_input(entered)
     start_lat,start_long = hopper.get_coordinates(start_address)
     if not hopper.in_bay_area(start_lat, start_long):
         raise InvalidUsage("Starting Location Not in Bay Area")
     try:
-        locations = hopper.get_path(start_lat, start_long, yelp_perc, categories)
+        locations = hopper.get_path(start_lat, start_long, yelp_perc, tuple(categories))
     except Exception as e:
         raise InvalidUsage(e)
     suggestion = hopper.get_recommended(locations)
